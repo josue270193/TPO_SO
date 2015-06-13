@@ -3,12 +3,14 @@ package implementaciones;
 import tda.ConjuntoTDA;
 
 public class ConjuntoEstatico implements ConjuntoTDA {
+	public static final int ELEMENTOS = 100;
+	
 	String[] valores;
 	int cant;
 	
 	@Override
 	public void inicializar() {
-		valores = new String [100];
+		valores = new String [ELEMENTOS];
 		cant = 0;
 	}
 

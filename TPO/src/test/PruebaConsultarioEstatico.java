@@ -13,20 +13,39 @@ public class PruebaConsultarioEstatico {
 		System.out.println("AGREGAR ----- ");
 		
 		consultorio.agregar("LOPEZ", "15/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ", "15/15/16", "10:10", "PEPE");
 		consultorio.agregar("LOPEZ 2", "15/15/15", "10:10", "PEPE");
-		consultorio.agregar("LOPEZ 3", "15/15/15", "10:10", "PEPE");
 		consultorio.agregar("LOPEZ 4", "15/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 3", "15/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "01/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "02/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "03/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "04/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "05/15/15", "10:10", "PEPE");
+		consultorio.agregar("LOPEZ 4", "05/15/15", "10:10", "PEPE");
+		
 		//consultorio.agregar("LOPEZ", "15/15/15", "10:10", "PEPE");
 		
-		System.out.println("MEDICOS ----- ");
+		System.out.println("MEDICOS Y FECHAS ----- ");
 		ConjuntoTDA medicos = consultorio.medicos();		
 		
 		while (!medicos.conjuntoVacio()){
 			String medicoAux = medicos.elegir();
+			System.out.println("FECHAS ----- ");
 			System.out.println("MEDICO: " + medicoAux);
+			
+			ConjuntoTDA fechasMedico = consultorio.fechas(medicoAux);
+			while (!fechasMedico.conjuntoVacio()){
+				String fechaAux = fechasMedico.elegir();
+				System.out.println("FECHA: " + fechaAux);
+				
+				fechasMedico.sacar(fechaAux);
+			}
+			
+			
 			medicos.sacar(medicoAux);
 		}
-		
+		/*
 		System.out.println("FECHAS ----- ");
 		
 		ConjuntoTDA fechasMedico = consultorio.fechas("LOPEZ");
@@ -55,6 +74,7 @@ public class PruebaConsultarioEstatico {
 			System.out.println("MEDICO: " + medicoAux);
 			medicos.sacar(medicoAux);
 		}
+		*/
 		
 	}
 
