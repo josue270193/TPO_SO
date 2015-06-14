@@ -4,40 +4,49 @@ import tda.ColaPrioridadTDA;
 
 public class ColaPrioridadEstatica implements ColaPrioridadTDA {
 
+	public final static int ELEMENTOS = 100;
+	
+	ElementosColaPrioridad elementos[];
+	int cantidad = 0;
+	
 	@Override
-	public void inicializar() {
-		// TODO Auto-generated method stub
-
+	public void inicializar(){
+		elementos = new ElementosColaPrioridad[ELEMENTOS];
 	}
 
 	@Override
 	public void acolar(String paciente, String turno) {
-		// TODO Auto-generated method stub
-
+		int x = cantidad;
+		
+		for(; x > 0 && elementos[x-1].hora.compareTo(turno) >= 0; x--){
+			elementos[x] = elementos[x-1];
+		}
+		
+		elementos[x] = new ElementosColaPrioridad();
+		elementos[x].paciente = paciente;
+		elementos[x].hora = turno;
+		cantidad++;
 	}
 
 	@Override
 	public void dasacolar() {
-		// TODO Auto-generated method stub
-
+		elementos[cantidad - 1] = null;
+		cantidad--;
 	}
 
 	@Override
 	public String paciente() {
-		// TODO Auto-generated method stub
-		return null;
+		return elementos[cantidad - 1].paciente;
 	}
 
 	@Override
 	public String turno() {
-		// TODO Auto-generated method stub
-		return null;
+		return elementos[cantidad - 1].hora;
 	}
 
 	@Override
 	public boolean colaVacia() {
-		// TODO Auto-generated method stub
-		return false;
+		return (cantidad == 0);
 	}
 
 }

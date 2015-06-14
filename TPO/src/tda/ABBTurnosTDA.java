@@ -6,16 +6,22 @@ public interface ABBTurnosTDA {
 	
 	/**
 	 * inicializado
+	 * @param turno ES LA HORA QUE SE LE ASIGNA A UN PACIENTE
+	 * @param paciente ES NOMBRE DE UN PACIENTE
 	 * */
 	public void agregar(String turno, String paciente);
 	
 	/**
 	 * inicializado
+	 * @param turno ES LA HORA QUE SE LE ASIGNA A UN PACIENTE
+	 * @param paciente ES NOMBRE DE UN PACIENTE
 	 * */
 	public void eliminar(String turno, String paciente);
 	
 	/**
 	 * inicializado y no vacio
+	 * 
+	 * ES LA HORA DE UN PACIENTE
 	 * */
 	public String turno();
 	

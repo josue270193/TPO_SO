@@ -3,6 +3,7 @@ package implementaciones;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import tda.ABBTurnosTDA;
 import tda.ColaPrioridadTDA;
 import tda.ConjuntoTDA;
 import tda.ConsultorioTDA;
@@ -37,80 +38,130 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 			nodoNuevo.medico = medico;
 			nodoNuevo.fechas = new NodoFecha[ELEMENTOS];
 			nodoNuevo.cantidadFechas = 0;
+						
+			ArbolTurnos arbolTurnos = new ArbolTurnos();
+			arbolTurnos.inicializar();
+			arbolTurnos.agregar(hora, paciente);
 			
 			NodoFecha nodoFecha = new NodoFecha();
 			nodoFecha.fecha = fecha;
-			// TODO AGREGAR ARBOL
-			nodoNuevo.fechas[nodoNuevo.cantidadFechas++] = nodoFecha;
+			nodoFecha.turnos = arbolTurnos;
 			
+			nodoNuevo.fechas[nodoNuevo.cantidadFechas++] = nodoFecha;			
+					
 			nodoConsultorio[cantidad++] = nodoNuevo;
 			
-			System.out.println("AGREGADO NUEVO MEDICO: " + medico);
+			System.out.println("1 - MEDICO: " + medico + " FECHA: " + fecha + " HORA: " + hora + " PACIENTE: " + paciente );
 		}else{
 			
 			int posicionFecha = existeFecha(posicionMedico, fecha);
+			
 			if (posicionFecha == -1){	// NO EXISTE LA FECHA
+				
+				ArbolTurnos arbolTurnos = new ArbolTurnos();
+				arbolTurnos.inicializar();
+				arbolTurnos.agregar(hora, paciente);
+				
 				NodoFecha nodoFecha = new NodoFecha();
 				nodoFecha.fecha = fecha;
-				// TODO AGREGAR ARBOL
+				nodoFecha.turnos = arbolTurnos;
+				
 				nodoConsultorio[posicionMedico].fechas[nodoConsultorio[posicionMedico].cantidadFechas++] = nodoFecha;
 				
-				System.out.println("AGREGADO NUEVA FECHA: " + medico);
-			}else{
-				
-				System.out.println("AGREGADO: " + medico);
+				System.out.println("2 - MEDICO: " + medico + " FECHA: " + fecha + " HORA: " + hora + " PACIENTE: " + paciente);
+			}else{				
+				nodoConsultorio[posicionMedico].fechas[posicionFecha].turnos.agregar(hora, paciente);								
+				System.out.println("3 - MEDICO: " + medico + " FECHA: " + fecha + " HORA: " + hora + " PACIENTE: " + paciente);
 			}
-		}
-			
-		
-		
-		
-		
-	}
-
-	private int existeFecha(int posicionMedico, String fecha) {		
-		for (int i = 0; i < nodoConsultorio[posicionMedico].cantidadFechas; i++){				
-			if(nodoConsultorio[posicionMedico].fechas[i].fecha == fecha){						
-				return i;
-			}			
-		}		
-		return -1;
-	}
-
-	private int existeMedico(String medico) {		
-		for (int i = 0; i < cantidad; i++){					
-			if(nodoConsultorio[i].medico == medico){						
-				return i;
-			}			
-		}		
-		return -1;
+		}	
 	}
 
 	@Override
 	public void eliminarTurno(String medico, String fecha, String turno, String paciente) {
-		// TODO 				
+		
+		int posicionMedico = existeMedico(medico);
+		
+		if (posicionMedico == -1){ // NO EXISTE EL MEDICO
+			
+			System.out.println("ELIMINANDO TURNO - NO EXISTE MEDICO: " + medico);
+			//System.out.println("ELIMINANDO TURNO - NO EXISTE MEDICO: " + medico + " NI FECHA: " + fecha + " HORA: " + turno + " PACIENTE: " + paciente);
+			
+		}else{
+			int posicionFecha = existeFecha(posicionMedico, fecha);
+			if (posicionFecha == -1){	// NO EXISTE LA FECHA
+				
+				System.out.println("ELIMINANDO TURNO - MEDICO: " + medico + " NO EXISTE FECHA: " + fecha);
+					
+			}else{
+				
+				
+				for (int j = posicionFecha; j < nodoConsultorio[posicionMedico].cantidadFechas-1; j++){
+					nodoConsultorio[posicionMedico].fechas[j] = nodoConsultorio[posicionMedico].fechas[j+1];
+				}
+				nodoConsultorio[posicionMedico].cantidadFechas--;
+				
+				System.out.println("ELIMINANDO FECHA - MEDICO: " + medico + " FECHA: " + fecha);
+				
+				if (nodoConsultorio[posicionMedico].cantidadFechas == 0){
+					eliminarMedico(medico);
+				}
+			}
+		}
+		
+		
+		// TODO 		
 	}
 
 	@Override
 	public void eliminarFecha(String medico, String fecha) {
-
+			
+		
+		int posicionMedico = existeMedico(medico);
+		
+		if (posicionMedico == -1){ // NO EXISTE EL MEDICO
+			
+			System.out.println("ELIMINANDO FECHA NO EXISTE - MEDICO: " + medico);
+			
+		}else{
+			int posicionFecha = existeFecha(posicionMedico, fecha);
+			if (posicionFecha == -1){	// NO EXISTE LA FECHA
+				
+				System.out.println("ELIMINANDO FECHA - MEDICO: " + medico + " NO EXISTE FECHA: " + fecha);
+				
+			}else{
+				for (int j = posicionFecha; j < nodoConsultorio[posicionMedico].cantidadFechas-1; j++){
+					nodoConsultorio[posicionMedico].fechas[j] = nodoConsultorio[posicionMedico].fechas[j+1];
+				}
+				nodoConsultorio[posicionMedico].cantidadFechas--;
+				
+				System.out.println("ELIMINANDO FECHA - MEDICO: " + medico + " FECHA: " + fecha);
+				
+				if (nodoConsultorio[posicionMedico].cantidadFechas == 0){
+					eliminarMedico(medico);
+				}
+			}
+		}
+		
 	}
 
 	@Override
 	public void eliminarMedico(String medico) {
-		
-		for (int i = 0; i < cantidad; i++){		
-			
-			if(nodoConsultorio[i].medico == medico){
 				
-				for (int j = i; j < cantidad-1; j++){
-					nodoConsultorio[j] = nodoConsultorio[j+1];
-				}
-				cantidad--;
-				break;
-			}
+		int posicionMedico = existeMedico(medico);
+		
+		if (posicionMedico == -1){ // NO EXISTE EL MEDICO
 			
+			System.out.println("ELIMINANDO MEDICO NO EXISTE - MEDICO: " + medico);
+			
+		}else{			
+			for (int j = posicionMedico; j < cantidad-1; j++){
+				nodoConsultorio[j] = nodoConsultorio[j+1];
+			}
+			cantidad--;
+			
+			System.out.println("ELIMINANDO MEDICO - MEDICO: " + medico);
 		}
+		
 	}
 
 	@Override
@@ -142,16 +193,66 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 			}
 			
 			//return ordernarConjuntoMayorMenor(conjunto);
-			return ordernarConjuntoMenorMayor(conjunto);
-			
+			return ordernarConjuntoMenorMayor(conjunto);			
 		}
 	}
+
+	@Override
+	public ColaPrioridadTDA turnos(String medico, String fecha) {
+		ColaPrioridadEstatica cola = new ColaPrioridadEstatica();
+		cola.inicializar();
+		
+		int posicionMedico = existeMedico(medico);
+		
+		if (posicionMedico == -1){ // NO EXISTE EL MEDICO
+			
+		}else{
+			
+			int posicionFecha = existeFecha(posicionMedico, fecha);
+			
+			if (posicionFecha == -1){	// NO EXISTE LA FECHA
+								
+			}else{
+				crearColaPrioridad(cola, nodoConsultorio[posicionMedico].fechas[posicionFecha].turnos);				
+			}
+		}			
+		return cola;
+	}
+
 	
+	private void crearColaPrioridad(ColaPrioridadTDA cola, ABBTurnosTDA nodo){
+		
+		if (! nodo.arbolVacio()){			
+			crearColaPrioridad(cola, nodo.hijoIzq());
+			cola.acolar(nodo.paciente(), nodo.turno());
+			crearColaPrioridad(cola, nodo.hijoDer());
+		}
+		
+	}
+	
+	private int existeFecha(int posicionMedico, String fecha) {		
+		for (int i = 0; i < nodoConsultorio[posicionMedico].cantidadFechas; i++){				
+			if(nodoConsultorio[posicionMedico].fechas[i].fecha == fecha){						
+				return i;
+			}			
+		}		
+		return -1;
+	}
+
+	private int existeMedico(String medico) {		
+		for (int i = 0; i < cantidad; i++){					
+			if(nodoConsultorio[i].medico == medico){						
+				return i;
+			}			
+		}		
+		return -1;
+	}
+
 	private ConjuntoTDA ordernarConjuntoMenorMayor(ConjuntoTDA c) {
 		ConjuntoEstatico conjunto = new ConjuntoEstatico();
 		conjunto.inicializar();
-				
-		String valores[] = new String[((ConjuntoEstatico)c).cant];
+		
+		String valores[] = new String[((ConjuntoEstatico)c).cantidad];
 		int i = 0;
 		while (!c.conjuntoVacio()){
 			String elementoAux = c.elegir();			
@@ -177,8 +278,8 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 	private ConjuntoTDA ordernarConjuntoMayorMenor(ConjuntoTDA c) {
 		ConjuntoEstatico conjunto = new ConjuntoEstatico();
 		conjunto.inicializar();
-				
-		String valores[] = new String[((ConjuntoEstatico)c).cant];
+		
+		String valores[] = new String[((ConjuntoEstatico)c).cantidad];
 		int i = 0;
 		while (!c.conjuntoVacio()){
 			String elementoAux = c.elegir();			
@@ -200,12 +301,4 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 		
 		return conjunto;
 	}
-
-	@Override
-	public ColaPrioridadTDA turnos(String medico, String fecha) {
-		return null;
-	}
-
-	
-	
 }
