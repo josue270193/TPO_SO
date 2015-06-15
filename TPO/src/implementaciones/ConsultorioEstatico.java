@@ -94,7 +94,15 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 					
 			}else{
 				
+				if (existeTurno(nodoConsultorio[posicionMedico].fechas[posicionFecha].turnos, turno, paciente)){					
+					nodoConsultorio[posicionMedico].fechas[posicionFecha].turnos.eliminar(turno, paciente);
+										
+					if (nodoConsultorio[posicionMedico].fechas[posicionFecha].turnos.arbolVacio()){
+						eliminarFecha(medico, fecha);
+					}
+				}
 				
+				/*
 				for (int j = posicionFecha; j < nodoConsultorio[posicionMedico].cantidadFechas-1; j++){
 					nodoConsultorio[posicionMedico].fechas[j] = nodoConsultorio[posicionMedico].fechas[j+1];
 				}
@@ -102,20 +110,14 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 				
 				System.out.println("ELIMINANDO FECHA - MEDICO: " + medico + " FECHA: " + fecha);
 				
-				if (nodoConsultorio[posicionMedico].cantidadFechas == 0){
-					eliminarMedico(medico);
-				}
+				*/
 			}
-		}
-		
-		
-		// TODO 		
+		}			
 	}
 
 	@Override
 	public void eliminarFecha(String medico, String fecha) {
-			
-		
+				
 		int posicionMedico = existeMedico(medico);
 		
 		if (posicionMedico == -1){ // NO EXISTE EL MEDICO
@@ -140,8 +142,7 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 					eliminarMedico(medico);
 				}
 			}
-		}
-		
+		}		
 	}
 
 	@Override
@@ -218,7 +219,6 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 		}			
 		return cola;
 	}
-
 	
 	private void crearColaPrioridad(ColaPrioridadTDA cola, ABBTurnosTDA nodo){
 		
@@ -228,6 +228,26 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 			crearColaPrioridad(cola, nodo.hijoDer());
 		}
 		
+	}
+	
+	/**
+	 * BUSCA SI EL TURNO Y EL PACIENTE EXISTE EN EL ARBOL
+	 * @param arbol 
+	 * @param turno
+	 * @param paciente
+	 * @return
+	 */
+	private boolean existeTurno(ABBTurnosTDA arbol, String turno, String paciente) {
+	
+		if (arbol.arbolVacio())
+			return false;
+		else{
+			if (arbol.turno().compareTo(turno) == 0 && arbol.paciente().compareTo(paciente) == 0){
+				return true;
+			}else{
+				return (existeTurno(arbol.hijoIzq(), turno, paciente) || existeTurno(arbol.hijoDer(), turno, paciente)); 
+			}
+		}
 	}
 	
 	private int existeFecha(int posicionMedico, String fecha) {		

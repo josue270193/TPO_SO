@@ -36,11 +36,13 @@ public class ArbolTurnos implements ABBTurnosTDA {
 			if(raiz.hora == turno && raiz.paciente == paciente && raiz.hijoDer.arbolVacio() && raiz.hijoIzq.arbolVacio())
 				raiz = null;
 			else if(raiz.hora == turno && raiz.paciente == paciente && !raiz.hijoIzq.arbolVacio()){
-				raiz.hora = mayor(raiz.hijoIzq);
+				raiz.hora = mayorTurno(raiz.hijoIzq);
+				raiz.paciente = mayorPaciente(raiz.hijoIzq);
 				raiz.hijoIzq.eliminar(raiz.hora, raiz.paciente);
 			}
 			else if(raiz.hora == turno && raiz.paciente == paciente && raiz.hijoIzq.arbolVacio()){
-				raiz.hora = this.menor(raiz.hijoDer);
+				raiz.hora = menorTurno(raiz.hijoDer);
+				raiz.paciente = menorPaciente(raiz.hijoDer);
 				raiz.hijoDer.eliminar(raiz.hora, raiz.paciente);
 			}
 			else if(raiz.hora.compareTo(turno) > 0) // BUSCA POR EL NODO IZQUIERDO EL TURNO
@@ -80,22 +82,34 @@ public class ArbolTurnos implements ABBTurnosTDA {
 	 * BUSCA LA HORA MAYOR
 	 * @param a UN ARBOL ABBTurnosTDA	
 	 * */
-	private String mayor(ABBTurnosTDA a){		
+	private String mayorTurno(ABBTurnosTDA a){		
 		if(a.hijoDer().arbolVacio())
 			return a.turno();
 		else
-			return mayor(a.hijoDer());
+			return mayorTurno(a.hijoDer());
+	}
+	private String mayorPaciente(ABBTurnosTDA a){		
+		if(a.hijoDer().arbolVacio())
+			return a.paciente();
+		else
+			return mayorPaciente(a.hijoDer());
 	}
 	
 	/**
 	 * BUSCA LA HORA MENOR
 	 * @param a UN ARBOL ABBTurnosTDA	
 	 * */
-	private String menor(ABBTurnosTDA a){		
+	private String menorTurno(ABBTurnosTDA a){		
 		if(a.hijoIzq().arbolVacio())
 			return a.turno();
 		else
-			return menor(a.hijoIzq());
+			return menorTurno(a.hijoIzq());
+	}
+	private String menorPaciente(ABBTurnosTDA a){		
+		if(a.hijoIzq().arbolVacio())
+			return a.paciente();
+		else
+			return menorPaciente(a.hijoIzq());
 	}
 
 }

@@ -50,13 +50,15 @@ public class PruebaConsultarioEstatico {
 			medicos.sacar(medicoAux);
 		}
 		
-		System.out.println("\nPRUEBA DE ELIMINAR MEDICOS - FECHAS - TURNOS\n----------------------------------------------------------------------------------------");
+		System.out.println("\nPRUEBA DE ELIMINAR MEDICOS - FECHAS\n----------------------------------------------------------------------------------------");
 		
+		/*
 		consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
 		consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
 		consultorio.eliminarMedico("LOPEZ");
 		consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
 		consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
+		*/
 		
 		System.out.println("\nMEDICOS CON SUS FECHAS\n----------------------------------------------------------------------------------------");
 		medicos = consultorio.medicos();
@@ -74,6 +76,33 @@ public class PruebaConsultarioEstatico {
 			}			
 			medicos.sacar(medicoAux);
 		}
+		
+		System.out.println("\nMEDICOS CON SUS FECHAS, TURNOS Y PACIENTES\n----------------------------------------------------------------------------------------");
+		medicos = consultorio.medicos();
+		
+		while (!medicos.conjuntoVacio()){
+			String medicoAux = medicos.elegir();			
+			System.out.println("\nMEDICO: " + medicoAux);
+			
+			ConjuntoTDA fechasMedico = consultorio.fechas(medicoAux);			
+			while (!fechasMedico.conjuntoVacio()){
+				String fechaAux = fechasMedico.elegir();
+				System.out.println("	FECHA: " + fechaAux);
+				
+				ColaPrioridadEstatica colaTurnos = (ColaPrioridadEstatica) consultorio.turnos(medicoAux, fechaAux);
+				while (! colaTurnos.colaVacia()){
+					System.out.println("		HORA: " + colaTurnos.turno() + " - PACIENTE: " + colaTurnos.paciente());
+					colaTurnos.dasacolar();
+				}				
+				
+				fechasMedico.sacar(fechaAux);
+			}			
+			medicos.sacar(medicoAux);
+		}
+		
+		System.out.println("\nPRUEBA DE ELIMINAR MEDICOS - FECHAS - TURNOS\n----------------------------------------------------------------------------------------");
+		
+		consultorio.eliminarTurno("LOPEZ 4", "05/15/15", "10:00", "PEPE");
 		
 		System.out.println("\nMEDICOS CON SUS FECHAS, TURNOS Y PACIENTES\n----------------------------------------------------------------------------------------");
 		medicos = consultorio.medicos();
