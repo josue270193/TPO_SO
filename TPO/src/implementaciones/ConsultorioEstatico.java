@@ -174,7 +174,8 @@ public class ConsultorioEstatico implements ConsultorioTDA {
 			conjunto.agregar(nodoConsultorio[i].medico);			
 		}
 		
-		return conjunto;
+		//return conjunto;
+		return ordernarConjuntoMenorMayor(conjunto);
 	}
 
 	@Override

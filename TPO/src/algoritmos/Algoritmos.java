@@ -1,6 +1,7 @@
 package algoritmos;
 
 import implementaciones.ConsultorioEstatico;
+import tda.ConjuntoTDA;
 import tda.ConsultorioTDA;
 
 public class Algoritmos {
@@ -20,9 +21,9 @@ public class Algoritmos {
 	 * para un paciente determinado.
 	 * 
 	 */
-	public void agregarTurno(String medico, String fecha, String hora, String paciente)
+	public void agregarTurno(String medico, String fecha, String hora, String paciente) // JOSUE
 	{
-		
+		consultorio.agregar(medico, fecha, hora, paciente);
 	}
 	
 	/**
@@ -30,7 +31,7 @@ public class Algoritmos {
 	 *  en una fecha determinada.
 	 *  
 	 */
-	public void eliminarTurno(String medico, String fecha, String hora, String paciente)
+	public void eliminarTurno(String medico, String fecha, String hora, String paciente) // LEANDRO
 	{
 		
 	}
@@ -39,7 +40,7 @@ public class Algoritmos {
 	 * 	Eliminar una fecha determinada a un medico determinado. 
 	 *  
 	 */
-	public void eliminarFechaMedico(String medico, String fecha)
+	public void eliminarFechaMedico(String medico, String fecha) // LEANDRO
 	{
 		
 	}
@@ -50,7 +51,7 @@ public class Algoritmos {
 	 * 
 	 */
 	
-	public String[][] turnosEnFecha(String medico, String fecha)
+	public String[][] turnosEnFecha(String medico, String fecha) // LEANDRO
 	{
 		return null;
 	}
@@ -61,7 +62,7 @@ public class Algoritmos {
 	 * 
 	 */
 	
-	public String[] fechasOcupadas(String medico, String fechaDesde, String fechaHasta)
+	public String[] fechasOcupadas(String medico, String fechaDesde, String fechaHasta) // JAVIER
 	{
 		return null;
 	}
@@ -72,7 +73,7 @@ public class Algoritmos {
 	 * por fecha y dentro de la fecha por horario de menor a mayor.
 	 * 
 	 */
-	public String[][] turnosDePaciente(String paciente, String fechaDesde, String fechaHasta)
+	public String[][] turnosDePaciente(String paciente, String fechaDesde, String fechaHasta) // JAVIER
 	{
 		return null;
 	}
@@ -80,7 +81,7 @@ public class Algoritmos {
 	/**
 	 * Obtener la agenda del consultorio ordenada por médico, fecha, turno y paciente
 	 * */
-	public String[][] agendaConsultorio()
+	public String[][] agendaConsultorio() // JAVIER
 	{
 		return null;
 	}
@@ -89,23 +90,65 @@ public class Algoritmos {
 	 * Obtiene los médicos ordenados alfabeticamente;
 	 * 
 	 */
-	public String[] obtenerMedicos()
+	public String[] obtenerMedicos() // JOSUE
 	{
-		return null;
+		ConjuntoTDA medicos = consultorio.medicos();		
+		
+		int i = 0;
+		while (!medicos.conjuntoVacio()){
+			String medicoAux = medicos.elegir();
+			i++;
+			medicos.sacar(medicoAux);
+		}
+		
+		medicos = consultorio.medicos();
+		String resultado[] = new String[i];
+		i = 0;
+		
+		while (!medicos.conjuntoVacio()){
+			String medicoAux = medicos.elegir();
+			resultado[i++] = medicoAux;
+			medicos.sacar(medicoAux);
+		}
+		
+		return resultado;
 	}
 	
 	/**
 	 * Obtiene las fechas de un medico pasado como parámetro ordenadas cronologicamente;
 	 * 
 	 */
-	public String[] obtenerFechas(String medico)
+	public String[] obtenerFechas(String medico) // JOSUE
 	{
-		return null;
+		ConjuntoTDA fechas = consultorio.fechas(medico);
+		int i = 0;
+		
+		while (!fechas.conjuntoVacio()){
+			String fechaAux = fechas.elegir();
+			i++;
+			fechas.sacar(fechaAux);
+		}
+		
+		fechas = consultorio.fechas(medico);
+		String resultado[] = new String[i];
+		i = 0;
+		
+		while (!fechas.conjuntoVacio()){
+			String fechaAux = fechas.elegir();
+			resultado[i++] = fechaAux;
+			fechas.sacar(fechaAux);
+		}
+		
+		return resultado;		
 	}
 	
 	private void cargoDatos()
 	{
+		consultorio.inicializar();
+		
 		/* Agregue aqui algunos datos a la estructura para prueba */
+		consultorio.agregar("ZAPATA", "20150515", "15:00", "MARIA");
+		
 	}
 }
 
@@ -114,11 +157,7 @@ public class Algoritmos {
 	-	PROBAR CADA TDA POR SEPARADO
 	-	UNA INTERFAZ QUE SE USA PARA LA PRACTICA 
 	- 	HORAS (TURNOS) Y FECHAS SON VALIDAS
+	- 	FORMATO HORA XX:XX
+	- 	FORMATO FECHA YYYYMMDD	- SIENDO YYYY AÑO MM MES DD DIA
 	
-
-
-
-
-
-
 */

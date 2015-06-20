@@ -1,18 +1,19 @@
 package test;
 
+import algoritmos.Algoritmos;
 import tda.ConjuntoTDA;
 import implementaciones.ColaPrioridadEstatica;
 import implementaciones.ConsultorioEstatico;
 
 public class PruebaConsultarioEstatico {
 
-	
-	public static void main(String[] args) {
+	public void prueba(){
+
 		ConsultorioEstatico consultorio = new ConsultorioEstatico();
 		consultorio.inicializar();
-		
+
 		System.out.println("DATOS AGREGADOS\n----------------------------------------------------------------------------------------");
-		
+
 		consultorio.agregar("LOPEZ", "15/15/15", "10:00", "PEPE");
 		consultorio.agregar("LOPEZ", "15/15/16", "10:00", "PEPE");
 		consultorio.agregar("LOPEZ 2", "15/15/15", "10:00", "PEPE");
@@ -30,12 +31,12 @@ public class PruebaConsultarioEstatico {
 		consultorio.agregar("LOPEZ 4", "05/15/15", "20:00", "ANA");
 		consultorio.agregar("LOPEZ 4", "05/15/15", "15:00", "MARIA");
 		consultorio.agregar("LOPEZ 4", "05/15/15", "13:00", "JOSE");
-		
+
 		//consultorio.agregar("LOPEZ", "15/15/15", "10:10", "PEPE");
-		
+
 		System.out.println("\nMEDICOS CON SUS FECHAS\n---------------------------------------------------------------------------------------- ");
 		ConjuntoTDA medicos = consultorio.medicos();		
-		
+
 		while (!medicos.conjuntoVacio()){
 			String medicoAux = medicos.elegir();			
 			System.out.println("\nMEDICO: " + medicoAux);
@@ -49,20 +50,20 @@ public class PruebaConsultarioEstatico {
 			}			
 			medicos.sacar(medicoAux);
 		}
-		
+
 		System.out.println("\nPRUEBA DE ELIMINAR MEDICOS - FECHAS\n----------------------------------------------------------------------------------------");
-		
+
 		/*
-		consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
-		consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
-		consultorio.eliminarMedico("LOPEZ");
-		consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
-		consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
-		*/
-		
+				consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
+				consultorio.eliminarFecha("LOPEZ 3", "15/15/15");
+				consultorio.eliminarMedico("LOPEZ");
+				consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
+				consultorio.eliminarFecha("LOPEZ 4", "15/15/15");
+		 */
+
 		System.out.println("\nMEDICOS CON SUS FECHAS\n----------------------------------------------------------------------------------------");
 		medicos = consultorio.medicos();
-		
+
 		while (!medicos.conjuntoVacio()){
 			String medicoAux = medicos.elegir();			
 			System.out.println("\nMEDICO: " + medicoAux);
@@ -76,10 +77,10 @@ public class PruebaConsultarioEstatico {
 			}			
 			medicos.sacar(medicoAux);
 		}
-		
+
 		System.out.println("\nMEDICOS CON SUS FECHAS, TURNOS Y PACIENTES\n----------------------------------------------------------------------------------------");
 		medicos = consultorio.medicos();
-		
+
 		while (!medicos.conjuntoVacio()){
 			String medicoAux = medicos.elegir();			
 			System.out.println("\nMEDICO: " + medicoAux);
@@ -99,14 +100,14 @@ public class PruebaConsultarioEstatico {
 			}			
 			medicos.sacar(medicoAux);
 		}
-		
+
 		System.out.println("\nPRUEBA DE ELIMINAR MEDICOS - FECHAS - TURNOS\n----------------------------------------------------------------------------------------");
-		
+
 		consultorio.eliminarTurno("LOPEZ 4", "05/15/15", "10:00", "PEPE");
-		
+
 		System.out.println("\nMEDICOS CON SUS FECHAS, TURNOS Y PACIENTES\n----------------------------------------------------------------------------------------");
 		medicos = consultorio.medicos();
-		
+
 		while (!medicos.conjuntoVacio()){
 			String medicoAux = medicos.elegir();			
 			System.out.println("\nMEDICO: " + medicoAux);
@@ -126,6 +127,22 @@ public class PruebaConsultarioEstatico {
 			}			
 			medicos.sacar(medicoAux);
 		}
+
+	}
+	public static void main(String[] args) {
+		
+		Algoritmos algoritmos = new Algoritmos();		
+		String medicos[] = algoritmos.obtenerMedicos();
+				
+		for(int i = 0; i < medicos.length; i++){
+			System.out.println(medicos[i]);
+			String fechas[] = algoritmos.obtenerFechas(medicos[i]);
+			for(int j = 0; j < fechas.length; j++){
+				System.out.println(fechas[j]);
+			}
+		}
+			
+		
 	}
 
 }
