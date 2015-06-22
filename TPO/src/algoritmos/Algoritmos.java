@@ -32,8 +32,9 @@ public class Algoritmos {
 	 * horario determinado para un paciente determinado.
 	 * 
 	 */
-	public void agregarTurno(String medico, String fecha, String hora, String paciente) {
-
+	public void agregarTurno(String medico, String fecha, String hora, String paciente) // JOSUE
+	{
+		consultorio.agregar(medico, fecha, hora, paciente);
 	}
 
 	/**
@@ -41,7 +42,8 @@ public class Algoritmos {
 	 * determinado en una fecha determinada.
 	 * 
 	 */
-	public void eliminarTurno(String medico, String fecha, String hora, String paciente) {
+	public void eliminarTurno(String medico, String fecha, String hora, String paciente) // LEANDRO
+	{
 
 	}
 
@@ -49,7 +51,8 @@ public class Algoritmos {
 	 * Eliminar una fecha determinada a un medico determinado.
 	 * 
 	 */
-	public void eliminarFechaMedico(String medico, String fecha) {
+	public void eliminarFechaMedico(String medico, String fecha) // LEANDRO
+	{
 
 	}
 
@@ -174,8 +177,28 @@ public class Algoritmos {
 	 * Obtiene los m�dicos ordenados alfabeticamente;
 	 * 
 	 */
-	public String[] obtenerMedicos() {
-		return null;
+	public String[] obtenerMedicos() // JOSUE
+	{
+		ConjuntoTDA medicos = consultorio.medicos();
+
+		int i = 0;
+		while (!medicos.conjuntoVacio()) {
+			String medicoAux = medicos.elegir();
+			i++;
+			medicos.sacar(medicoAux);
+		}
+
+		medicos = consultorio.medicos();
+		String resultado[] = new String[i];
+		i = 0;
+
+		while (!medicos.conjuntoVacio()) {
+			String medicoAux = medicos.elegir();
+			resultado[i++] = medicoAux;
+			medicos.sacar(medicoAux);
+		}
+
+		return resultado;
 	}
 
 	/**
@@ -183,22 +206,41 @@ public class Algoritmos {
 	 * cronologicamente;
 	 * 
 	 */
-	public String[] obtenerFechas(String medico) {
-		return null;
+	public String[] obtenerFechas(String medico) // JOSUE
+	{
+		ConjuntoTDA fechas = consultorio.fechas(medico);
+		int i = 0;
+
+		while (!fechas.conjuntoVacio()) {
+			String fechaAux = fechas.elegir();
+			i++;
+			fechas.sacar(fechaAux);
+		}
+
+		fechas = consultorio.fechas(medico);
+		String resultado[] = new String[i];
+		i = 0;
+
+		while (!fechas.conjuntoVacio()) {
+			String fechaAux = fechas.elegir();
+			resultado[i++] = fechaAux;
+			fechas.sacar(fechaAux);
+		}
+
+		return resultado;
 	}
 
 	private void cargoDatos() {
-		/* Agregue aqui algunos datos a la estructura para prueba */
-
 		consultorio.inicializar();
 
-		consultorio.agregar("LOPEZ", "20150615", "10:00", "PEPE");
-		consultorio.agregar("LOPEZ", "20150616", "10:00", "PEPE");
+		/* Agregue aqui algunos datos a la estructura para prueba */
+		consultorio.agregar("ZAPATA", "20150515", "15:00", "MARIA");
 
 	}
 }
 
 /*
  * - PROBAR CADA TDA POR SEPARADO - UNA INTERFAZ QUE SE USA PARA LA PRACTICA -
- * HORAS (TURNOS) Y FECHAS SON VALIDAS
+ * HORAS (TURNOS) Y FECHAS SON VALIDAS - FORMATO HORA XX:XX - FORMATO FECHA
+ * YYYYMMDD - SIENDO YYYY A�O MM MES DD DIA
  */
