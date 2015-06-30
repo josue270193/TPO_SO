@@ -170,7 +170,43 @@ public class Algoritmos {
 	 * paciente
 	 * */
 	public String[][] agendaConsultorio() {
-		return null;
+
+		String[][] result = new String[100][4];
+		int i = 0;
+
+		ConjuntoTDA medicos = this.consultorio.medicos();
+
+		while (!medicos.conjuntoVacio()){
+
+			String medico = medicos.elegir();
+
+			ConjuntoTDA fechas = this.consultorio.fechas(medico);
+
+			while (!fechas.conjuntoVacio()){
+
+				String fecha = fechas.elegir();
+
+				ColaPrioridadTDA turnos = this.consultorio.turnos(medico, fecha);
+
+				while(!turnos.colaVacia()){
+
+					result[i][0] = medico;
+					result[i][1] = fecha;
+					result[i][2] = turnos.turno();
+					result[i][3] = turnos.paciente();
+
+					turnos.dasacolar();
+					i++;
+				}
+
+				fechas.sacar(fecha);
+
+			}
+
+			medicos.sacar(medico);
+		}
+
+		return result;
 	}
 
 	/**
@@ -234,7 +270,10 @@ public class Algoritmos {
 		consultorio.inicializar();
 
 		/* Agregue aqui algunos datos a la estructura para prueba */
-		consultorio.agregar("ZAPATA", "20150515", "15:00", "MARIA");
+		consultorio.agregar("ZAPATA", "20150515", "15:00", "MARIO");
+		consultorio.agregar("ZAPATA", "20150516", "15:00", "MARIA");
+		consultorio.agregar("ZAPATA", "20150515", "10:00", "MARIO");
+		consultorio.agregar("LOPEZ", "20150516", "11:00", "PEPE");
 
 	}
 }
