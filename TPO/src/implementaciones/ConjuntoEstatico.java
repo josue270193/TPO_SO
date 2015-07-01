@@ -56,5 +56,5 @@ public class ConjuntoEstatico implements ConjuntoTDA {
 		
 		return ( i < cantidad );
 	}
-
+	
 }

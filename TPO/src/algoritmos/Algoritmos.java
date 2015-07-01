@@ -1,5 +1,7 @@
 package algoritmos;
 
+import implementaciones.ColaPrioridadEstatica;
+import implementaciones.ConjuntoEstatico;
 import implementaciones.ConsultorioEstatico;
 
 import java.util.ArrayList;
@@ -62,8 +64,45 @@ public class Algoritmos {
 	 * 
 	 */
 
-	public String[][] turnosEnFecha(String medico, String fecha) {
-		return null;
+	public String[][] turnosEnFecha(String medico, String fecha) //SCULLI
+	{
+		ColaPrioridadEstatica cola = new ColaPrioridadEstatica();
+		cola.inicializar();
+		
+		ConjuntoTDA fechas = this.consultorio.fechas(medico);
+		
+		while (!fechas.conjuntoVacio()) {
+			String f = fechas.elegir();
+			
+			if( !f.equals(fecha) ){
+				fechas.sacar(f);
+				continue;
+			}
+			
+			ColaPrioridadTDA turnos = this.consultorio.turnos(medico, fecha);
+			
+			while( !turnos.colaVacia()  ){
+				
+				cola.acolar(turnos.paciente(), turnos.turno());
+				
+				turnos.dasacolar();
+			}
+			
+			fechas.sacar(fecha);
+		}
+
+		String[][] turnosEnFecha = new String[cola.cantidad()][2];
+
+		for (int i = 0; i < turnosEnFecha.length; i++) {
+			
+			turnosEnFecha[i][0] = cola.turno();
+			turnosEnFecha[i][1] = cola.paciente();
+			
+			cola.dasacolar();
+		}
+		
+		return turnosEnFecha;
+
 	}
 
 	/**
@@ -72,9 +111,43 @@ public class Algoritmos {
 	 * de menor a mayor.
 	 * 
 	 */
+	public String[] fechasOcupadas(String medico, String fechaDesde, String fechaHasta) //SCULLI
+	{
+		
+		ColaPrioridadEstatica cola = new ColaPrioridadEstatica();
+		cola.inicializar();
+		
+		ConjuntoTDA fechas = this.consultorio.fechas(medico);
+		
+		while (!fechas.conjuntoVacio()) {
+			String fecha = fechas.elegir();
+			
+			if( fecha.compareTo(fechaDesde) < 0 && fecha.compareTo(fechaHasta) > 0 ){
+				continue;
+			}
+			
+			ColaPrioridadTDA turnos = this.consultorio.turnos(medico, fecha);
+			
+			if( !turnos.colaVacia()  ){
+				
+				cola.acolar(fecha, fecha);
+				
+			}
+			
+			fechas.sacar(fecha);
+		}
 
-	public String[] fechasOcupadas(String medico, String fechaDesde, String fechaHasta) {
-		return null;
+		String[] fechasOcupadas = new String[cola.cantidad()];
+
+		for (int i = 0; i < fechasOcupadas.length; i++) {
+			
+			String r = cola.paciente();
+			
+			fechasOcupadas[i] = r;
+			cola.dasacolar();
+		}
+		
+		return fechasOcupadas;
 	}
 
 	/**
@@ -84,7 +157,8 @@ public class Algoritmos {
 	 * dentro de la fecha por horario de menor a mayor.
 	 * 
 	 */
-	public String[][] turnosDePaciente(String paciente, String fechaDesde, String fechaHasta) {
+	public String[][] turnosDePaciente(String paciente, String fechaDesde, String fechaHasta) //SCULLI
+	{
 
 		List<List<String>> respuesta = new ArrayList<List<String>>();
 
@@ -169,7 +243,8 @@ public class Algoritmos {
 	 * Obtener la agenda del consultorio ordenada por m�dico, fecha, turno y
 	 * paciente
 	 * */
-	public String[][] agendaConsultorio() {
+	public String[][] agendaConsultorio() //SCULLI
+	{
 
 		String[][] result = new String[100][4];
 		int i = 0;

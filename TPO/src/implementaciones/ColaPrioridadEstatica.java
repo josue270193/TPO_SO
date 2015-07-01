@@ -18,7 +18,7 @@ public class ColaPrioridadEstatica implements ColaPrioridadTDA {
 	public void acolar(String paciente, String turno) {
 		int x = cantidad;
 		
-		for(; x > 0 && elementos[x-1].hora.compareTo(turno) >= 0; x--){
+		for(; x > 0 && elementos[x-1].hora.compareTo(turno) <= 0; x--){
 			elementos[x] = elementos[x-1];
 		}
 		
@@ -47,6 +47,10 @@ public class ColaPrioridadEstatica implements ColaPrioridadTDA {
 	@Override
 	public boolean colaVacia() {
 		return (cantidad == 0);
+	}
+	
+	public int cantidad(){
+		return cantidad;
 	}
 
 }
