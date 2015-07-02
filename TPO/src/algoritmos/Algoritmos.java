@@ -275,13 +275,26 @@ public class Algoritmos {
 				}
 
 				fechas.sacar(fecha);
-
 			}
 
 			medicos.sacar(medico);
 		}
+		
+		int count = 0;
+		for (int j = 0; j < result.length; j++){
+			if( result[j][0] != null ) count++;
+			else break;
+		}
+		
+		String[][] r = new String[count][4];
+		for (int j = 0; j < count; j++) {
+			r[j][0] = result[j][0];
+			r[j][1] = result[j][1];
+			r[j][2] = result[j][2];
+			r[j][3] = result[j][3];
+		}
 
-		return result;
+		return r;
 	}
 
 	/**

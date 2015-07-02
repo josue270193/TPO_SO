@@ -25,8 +25,6 @@ public class AlgoritmosTest {
 		String[][] expected = { { "LOPEZ", "20150516", "11:00", "PEPE" }, { "ZAPATA", "20150515", "10:00", "MARIO" }, { "ZAPATA", "20150515", "15:00", "MARIO" }, { "ZAPATA", "20150516", "15:00", "MARIA" } };
 		
 		for (int i = 0; i < agendaConsultorio.length; i++) {
-			if(agendaConsultorio[i][0]==null) return;
-
 			Assert.assertEquals(expected[i][0], agendaConsultorio[i][0]);
 			Assert.assertEquals(expected[i][1], agendaConsultorio[i][1]);
 			Assert.assertEquals(expected[i][2], agendaConsultorio[i][2]);
