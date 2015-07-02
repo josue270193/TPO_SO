@@ -46,7 +46,7 @@ public class Algoritmos {
 	 */
 	public void eliminarTurno(String medico, String fecha, String hora, String paciente) // LEANDRO
 	{
-
+		consultorio.eliminarTurno(medico, fecha, hora, paciente);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Algoritmos {
 	 */
 	public void eliminarFechaMedico(String medico, String fecha) // LEANDRO
 	{
-
+		consultorio.eliminarFecha(medico, fecha);
 	}
 
 	/**
